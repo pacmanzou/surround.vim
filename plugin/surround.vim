@@ -149,7 +149,7 @@ function! s:wrap(string,char,type,removed,special)
   elseif newchar ==# "p"
     let before = "\n"
     let after  = "\n\n"
-  elseif newchar =~# "[tT]"
+  elseif newchar =~# "[t\<C-T>]"
     let dounmapp = 0
     let dounmapb = 0
     if !maparg(">","c")
@@ -185,7 +185,7 @@ function! s:wrap(string,char,type,removed,special)
         let before = '<'.tag.attributes.'>'
         let after  = '</'.substitute(tag,' .*','','').'>'
       endif
-      if newchar == "T"
+      if newchar == "\<C-T>"
         if type ==# "v" || type ==# "V"
           let before .= "\n\t"
         endif
@@ -201,7 +201,7 @@ function! s:wrap(string,char,type,removed,special)
       let before = substitute(fnc,'($','','').'('
       let after  = ')'
     endif
-  elseif newchar ==# "F"
+  elseif newchar ==# "\<C-F>"
     let fnc = input('function: ')
     let s:input = fnc."\<CR>"
     let before = fnc.'{'."\n\t"
@@ -373,7 +373,7 @@ function! s:dosurround(...) " {{{1
   let oldhead = strpart(oldline,0,strlen(oldline)-strlen(rem2))
   let oldtail = strpart(oldline,  strlen(oldline)-strlen(rem2))
   let regtype = getregtype('"')
-  if char =~# '[\[({<T]' || spc
+  if char =~# '[\[({]' || spc
     let keeper = substitute(keeper,'^\s\+','','')
     let keeper = substitute(keeper,'\s\+$','','')
   endif
