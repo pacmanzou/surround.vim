@@ -209,16 +209,23 @@ function! s:wrap(string,char,type,removed,special)
   " fast output for current line in current file
   elseif newchar ==# "o"
     if &filetype == "python" || &filetype == "markdown"
-      let line_output = "print"
+      let before = "print".'('
+      let after  = ')'
+    elseif &filetype == "go"
+      let before = "fmt.Println".'('
+      let after  = ')'
     elseif &filetype == "java"
-      let line_output = "System.out.println"
+      let before = "System.out.println".'('
+      let after  = ')'
+    elseif &filetype == "cpp"
+      let before = 'cout << '
+      let after  = ' << endl;'
+    elseif &filetype == "c"
+      let before = "printf".'('
+      let after  = ')'
     else
-      let line_output = ''
-      " nothing
+      " do nothing
     endif
-    let s:input = line_output."\<CR>"
-    let before = substitute(line_output,'($','','').'('
-    let after  = ')'
   elseif idx >= 0
     let spc = (idx % 3) == 1 ? " " : ""
     let idx = idx / 3 * 3
@@ -510,6 +517,7 @@ if !exists("g:surround_no_mappings") || ! g:surround_no_mappings
   nmap s  <Plug>Ysurround
   nmap sl <Plug>Yssurround
   xmap s   <Plug>VSurround
+  nmap so slo
   nmap st <nop>
   nmap s' <nop>
   map sb <nop>
