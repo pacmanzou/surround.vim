@@ -203,9 +203,11 @@ function! s:wrap(string,char,type,removed,special)
     endif
   elseif newchar ==# "\<C-F>"
     let fnc = input('function: ')
-    let s:input = fnc."\<CR>"
-    let before = fnc.'{'."\n\t"
-    let after = "\n".'}'
+    if fnc != ""
+      let s:input = fnc."\<CR>"
+      let before = fnc.' {'."\n\t"
+      let after = "\n".'}'
+    endif
   " fast output for current line in current file
   elseif newchar ==# "o"
     if &filetype == "python" || &filetype == "markdown"
