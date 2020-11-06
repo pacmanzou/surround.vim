@@ -519,6 +519,7 @@ if !exists("g:surround_no_mappings") || ! g:surround_no_mappings
   nmap s  <Plug>Ysurround
   nmap sl <Plug>Yssurround
   xmap s   <Plug>VSurround
+  xmap S   <Plug>VSurround
   nmap so slo
   nmap st <nop>
   nmap s' <nop>
