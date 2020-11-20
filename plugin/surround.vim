@@ -195,38 +195,30 @@ function! s:wrap(string,char,type,removed,special)
       endif
     endif
   elseif newchar ==# 'f'
-    let fnc = input('function: ')
+    let fnc = input("function: ")
     if fnc != ""
       let s:input = fnc."\<CR>"
       let before = substitute(fnc,'($','','').'('
       let after  = ')'
     endif
   elseif newchar ==# "\<C-F>"
-    let fnc = input('function: ')
-    if fnc != ""
+    if &filetype == "python"
+      let fnc = input("def: ")
       let s:input = fnc."\<CR>"
-      let before = fnc.' {'."\n\t"
-      let after = "\n".'}'
-    endif
-  " fast output for current line in current file
-  elseif newchar ==# "o"
-    if &filetype == "python" || &filetype == "markdown"
-      let before = "print".'('
-      let after  = ')'
+      let before = "def ".fnc."():"."\n\t"
+      let after = ""
     elseif &filetype == "go"
-      let before = "fmt.Println".'('
-      let after  = ')'
-    elseif &filetype == "java"
-      let before = "System.out.println".'('
-      let after  = ')'
-    elseif &filetype == "cpp"
-      let before = 'cout << '
-      let after  = ' << endl;'
-    elseif &filetype == "c"
-      let before = "printf".'('
-      let after  = ')'
+        let fnc = input("func: ")
+        let s:input = fnc."\<CR>"
+        let before = "func ".fnc."() {"."\n\t"
+        let after = "\n"."}"
     else
-      " do nothing
+      let fnc = input('function: ')
+      if fnc != ""
+        let s:input = fnc."\<CR>"
+        let before = fnc.' {'."\n\t"
+        let after = "\n".'}'
+      endif
     endif
   elseif idx >= 0
     let spc = (idx % 3) == 1 ? " " : ""
@@ -520,7 +512,6 @@ if !exists("g:surround_no_mappings") || ! g:surround_no_mappings
   nmap sl <Plug>Yssurround
   xmap s   <Plug>VSurround
   xmap S   <Plug>VSurround
-  nmap so slo
   nmap st <nop>
   nmap s' <nop>
   map sb <nop>
